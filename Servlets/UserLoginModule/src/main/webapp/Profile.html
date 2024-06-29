@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Profile Page</title>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link href="style_front.css" rel="stylesheet">
+</head>
+<body>
+	<div class="wrapper fadeInDown">
+	  <div id="formContent">
+	    <!-- Tabs Titles -->
+	
+	    <!-- Icon -->
+		    <div class="fadeIn first">
+		    <br/> <br/>
+		     	<h1>Welcome...</h1> 
+		    </div>
+		    <div id="val">
+		    	
+		    </div>
+		
+		    <!-- Login Form -->
+		
+		    <!-- Register -->
+		    <div id="formFooter">
+		      <a id="lgo" class="underlineHover" href="">LogOut</a>
+		    </div>
+	
+	  </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script>
+	$(document).ready(function(){
+		
+			
+			$.ajax({
+				url: "mainnav",
+				type: 'POST',
+				success: function(data, textStatus, jqXHR){
+					console.log(data);
+					console.log("Success.........")
+					if(data.trim()==='notEligible'){		
+						window.location.replace("login1.html");
+					}else{
+						$("#val").html(data);						
+					}
+				},
+				error: function(jqXHR, textStatus, errorThrown){
+					console.log(data);
+					console.log("Error.........")
+					
+				}
+			})
+			
+			$("#lgo").on('click',function(){
+				$.ajax({
+					url: "logout",
+					type: 'POST',
+					success: function(data, textStatus, jqXHR){
+						console.log(data);
+						console.log("Success.........")
+						if(data.trim()==='done'){		
+							window.location.replace("login1.html");
+						}
+					},
+					error: function(jqXHR, textStatus, errorThrown){
+						console.log(data);
+						console.log("Error.........")
+						
+					}
+				})
+			})
+			
+			$(window).bind('beforeunload', function(){
+				$.ajax({
+					url: "logout",
+					type: 'POST',
+					success: function(data, textStatus, jqXHR){
+						//console.log(data);
+						console.log("Success.........")
+					},
+					error: function(jqXHR, textStatus, errorThrown){
+						//console.log(data);
+						console.log("Error.........")
+						
+					}
+				})
+			});
+			
+			
+	})
+</script>
+
+</body>
+</html>

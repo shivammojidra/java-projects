@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+
+
+<style type="text/css">
+td, th {
+	border: 1px solid #777;
+	padding: 0.5rem;
+	text-align: center;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+tbody tr:nth-child(odd) {
+	background: #eee;
+}
+
+caption {
+	font-size: 0.8rem;
+}
+
+.container {
+	margin: auto;
+	/*width: 39%; */
+	padding: 10px;
+	display: flex;
+	justify-content: center;
+}
+
+#form1 {
+	display: none;
+}
+
+#f2Div {
+	display: none;
+}
+
+button {
+	margin-bottom: 10px;
+}
+</style>
+</head>
+<body>
+
+
+	<div class="container">
+		<table>
+			<tr>
+				<td>
+					<button id="insertUser">Insert User</button>
+					<form action="" method="" id="form1">
+						<input type="text" name="name" placeholder="Name..." required>
+						<br> <input type="email" name="email"
+							pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+							placeholder="Email.." required> <br> <input
+							type="text" name="gender" placeholder="Gender.." required>
+						<br> <input type="text" name="college"
+							placeholder="College.." required> <br> <input
+							type="text" name="course" placeholder="Course.." required>
+						<br> <input class="btn" type="submit" value="Insert ">
+					</form>
+
+				</td>
+				<td id="f2Div">
+					<form action="" method="" id="form2">
+						<input type="hidden" id="uid" name="id"> <input id="un"
+							type="text" name="name" placeholder="Name..." required> <br>
+						<input id="em" type="email" name="email"
+							pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+							placeholder="Email.." required> <br> <input
+							type="text" id="gn" name="gender" placeholder="Gender.." required>
+						<br> <input type="text" id="cl" name="college"
+							placeholder="College.." required> <br> <input
+							type="text" id="cr" name="course" placeholder="Course.." required>
+						<br> <input class="btn" type="submit" value="Edit & Save ">
+					</form>
+
+				</td>
+			</tr>
+
+
+		</table>
+	</div>
+	<div class="container">
+		<table id="display_table">
+			<thead>
+				<tr>
+					<th>User Id</th>
+					<th>Name</th>
+					<th>Email Id</th>
+					<th>Gender</th>
+					<th>College</th>
+					<th>Course</th>
+					<th>Remove</th>
+					<th>Edit</th>
+				</tr>
+			</thead>
+
+			<tbody id="tb">
+
+
+
+			</tbody>
+
+		</table>
+
+
+
+	</div>
+
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/jquery.serializeJSON/3.2.1/jquery.serializejson.min.js"></script>
+	<script>
+		
+		function EditUser(id) {
+			
+			    $( "#f2Div" ).show();				
+				
+			$.ajax({
+				url:"getUserData",
+				data: "userId="+id,
+				type:"GET",
+				success: (data, textStatus, jqXHR)=>{
+					//console.log("Success.........")
+					//console.log(data)
+					$("#uid").val(data.id)
+					$("#un").val(data.name)
+					$("#em").val(data.email)
+					$("#gn").val(data.gender)
+					$("#cl").val(data.college)
+					$("#cr").val(data.course)
+				},
+				error:(jqXHR, textStatus, errorThrown)=>{
+					console.log(errorThrown);
+					console.log("Error.........")
+				}
+			})
+		}
+	
+		function RemoveUser(id)
+		{
+			if(confirm("Are you sure you want to Remove User?")){
+		     $.ajax({
+		          url: "remove",
+		          type: "GET",
+		          data: "deleteId="+id,
+		          success: function(data, textStatus, jqXHR){
+		        	  location.reload(true);
+		          }
+		     });		       
+		    }
+		    else{
+		        return false;
+		    }
+		}
+		
+	$(document).ready(function(){
+		
+		
+		
+		$( "#insertUser" ).click( function() {
+			if ($( "#form1" ).is(":visible")) {
+		    $( "#form1" ).hide();								
+			}else {
+		    $( "#form1" ).show();				
+			}
+		  });
+		
+		
+		$.ajax({
+			url:"display",
+			type:"GET",
+			success: (data, textStatus, jqXHR)=>{
+				//console.log("Success.........")
+				//console.log(data)
+				
+				var row = '';
+				var cnt=0;
+				
+				$.each(data,(key,value)=>{
+					row += '<tr>';
+					//row += '<td>' + (++cnt) + '</td>';
+					row += '<td>' + value.id + '</td>';
+					row += '<td>' + value.name + '</td>';
+					row += '<td>' + value.email + '</td>';
+					row += '<td>' + value.gender + '</td>';
+					row += '<td>' + value.college + '</td>';
+					row += '<td>' + value.course + '</td>';
+					row += '<td>' + "<Button style='background-color: #f44336; color: white;' OnClick='RemoveUser("+value.id+")'>Remove</Button>" + '</td>';
+					row += '<td>' + "<Button style='background-color: #f44336; color: white;' OnClick='EditUser("+value.id+")'>Edit</Button>" + '</td>';
+					row += '</tr>';
+				});
+				
+				$("#display_table").append(row);
+				
+			},
+			error:(jqXHR, textStatus, errorThrown)=>{
+				console.log(errorThrown);
+				console.log("Error.........")
+			}
+		})
+		
+		
+		$("#form1").on('submit',function(){
+			
+			event.preventDefault();
+			
+			var obj = $(this).serializeJSON();
+			var jsonText = JSON.stringify(obj);
+			
+			//console.log(f);
+			
+			$.ajax({
+				url: "insert",
+				data: "jsonString="+jsonText,
+				type: 'POST',
+				success: function(data, textStatus, jqXHR){
+					console.log("Success.........")
+					
+					if (data.trim()=='continue') {
+						location.reload(true);						
+					}else if (data.trim()==='exists') {
+						alert("User Already exists with this email!!");
+					}else if (data.trim()==='exception') {
+						alert("Error has occured while connecting..");					
+					}
+					
+				},
+				error: function(jqXHR, textStatus, errorThrown){
+					console.log(errorThrown);
+					console.log("Error.........")
+					
+				}
+			})
+		})
+		
+		$("#form2").on('submit',function(){
+			
+			event.preventDefault();
+			var obj = $(this).serializeJSON();
+			var jsonText = JSON.stringify(obj);
+			//console.log(jsonText);
+			
+			 $.ajax({
+				url: "editUser",
+				data: "jsonString="+jsonText,
+				type: 'POST',
+				success: function(data, textStatus, jqXHR){
+					console.log("Success.........")
+					//console.log(this.data)
+					if (data.trim()==='exists') {
+						alert("User Already exists with this email!!");
+					}else if (data.trim()==='exception') {
+						alert("Error has occured while connecting..");					
+					}else {
+						location.reload(true);					
+					}
+				},
+				error: function(jqXHR, textStatus, errorThrown){
+					console.log(errorThrown);
+					console.log("Error.........")
+					
+				}
+			}) 
+		})
+	
+		
+	})
+</script>
+
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>My Form</title>
+	<style type="text/css">
+		.container{
+			width: 20%;
+			border: 1px solid black;
+			margin: auto;
+			padding: 20px;
+			font-size: 20px;
+		}
+	</style>
+</head>
+<body>
+<div class="container">
+	
+	<form action="register" method="post">
+		<table>
+			<thead>
+				<tr>
+					<th>Field</th>
+					<th>Details</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Enter Name:</td>
+					<td><input type="text" name="uname" /></td>
+				</tr>
+				<tr>
+					<td>Enter Password:</td>
+					<td><input type="password" name="pass" /></td>
+				</tr>
+				<tr>
+					<td>Enter Email:</td>
+					<td><input type="email" name="email" /></td>
+				</tr>
+				<tr>
+					<td>Select Gender:</td>
+					<td><input type="radio" name="gender" value="male" />&nbsp;&nbsp;<input type="radio" name="gender" value="female" /></td>
+				</tr>
+				<tr>
+					<td>Select College:</td>
+					<td>
+						<select name="college">
+							<option value="iit delhi">IIT Delhi</option>
+							<option value="iit bombay">IIT Bombay</option>
+							<option value="iit madras">IIT Madras</option>
+							<option value="iit trichira">IIT Trichira</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>Select Course:</td>
+					<td>
+						<select name="course">
+							<option value="machine learning">Machine Learning</option>
+							<option value="advanced dbms">Advanced DBMS</option>
+							<option value="software engineering">Software Engineering</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td><input type="submit" value="Submit"></td>
+					<td><input type="reset" value="Reset"></td>
+				</tr>
+				<tr>
+					<td><a href="Login.html">Already a User? Login....</a></td>
+					<td></td>
+				</tr>
+				
+				
+			</tbody>
+		</table>
+	</form>
+</div>
+</body>
+</html>

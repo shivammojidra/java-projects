@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<link rel="stylesheet" href="style.css" >
+</head>
+<body>
+	<div class="calculator card" align="center">
+	<form name="myForm" id="inp_frm" method="" action="">
+	<input type="text" class="calculator-screen z-depth-1" name="equation" id="eq"/>
+
+  <div class="calculator-keys">
+
+    <button type="button" class="operator btn btn-info" onclick="myForm.equation.value+='+'">+</button>
+    <button type="button" class="operator btn btn-info" onclick="myForm.equation.value+='-'">-</button>
+    <button type="button" class="operator btn btn-info" onclick="myForm.equation.value+='*'">&times;</button>
+    <button type="button" class="operator btn btn-info" onclick="myForm.equation.value+='/'">&divide;</button>
+    
+  
+
+    <button type="button" class="btn btn-light waves-effect" onclick="myForm.equation.value+='7'">7</button>
+    <button type="button" class="btn btn-light waves-effect" onclick="myForm.equation.value+='8'">8</button>
+    <button type="button" class="btn btn-light waves-effect" onclick="myForm.equation.value+='9'">9</button>
+    
+    
+    <button type="button" class="btn btn-light waves-effect" onclick="myForm.equation.value+='4'">4</button>
+    <button type="button" class="btn btn-light waves-effect" onclick="myForm.equation.value+='5'">5</button>
+    <button type="button" class="btn btn-light waves-effect" onclick="myForm.equation.value+='6'">6</button>
+    
+    
+    <button type="button" class="btn btn-light waves-effect" onclick="myForm.equation.value+='1'">1</button>
+    <button type="button" class="btn btn-light waves-effect" onclick="myForm.equation.value+='2'">2</button>
+    <button type="button" class="btn btn-light waves-effect" onclick="myForm.equation.value+='3'">3</button>
+    
+    
+    <button type="button" class="btn btn-light waves-effect" onclick="myForm.equation.value+='('">(</button>
+    <button type="button" class="btn btn-light waves-effect" onclick="myForm.equation.value+='0'">0</button>
+    <button type="button" class="btn btn-light waves-effect" onclick="myForm.equation.value+=')'">)</button>
+    
+    
+    <button type="button" class="all-clear function btn btn-danger btn-sm" onclick="myForm.equation.value=''">AC</button>
+
+    <button type="submit" class="equal-sign operator btn btn-default" >=</button>
+
+  </div>
+  
+ </form>
+</div>
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script>
+	$(document).ready(function(){
+		$("#inp_frm").on('submit',function(){
+			event.preventDefault();
+			
+			var f = $(this).serialize();
+			
+			//var f = "equation="+document.getElementById("eq").value;
+			//console.log(f)
+			$.ajax({
+				url: "calculate",
+				data: f,
+				type: 'POST',
+				success: function(data, textStatus, jqXHR){
+					//console.log(data);
+					//console.log("Success.........")
+					$("#eq").val(data)
+					
+				},
+				error: function(jqXHR, textStatus, errorThrown){
+					console.log(data);
+					console.log("Error.........")
+					
+				}
+			})
+		})
+		
+	})
+</script>
+
+</html>

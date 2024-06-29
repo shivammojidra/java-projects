@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Register1</title>
+<link
+	href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	rel="stylesheet" id="bootstrap-css">
+<script
+	src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script
+	src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link href="style_front.css" rel="stylesheet">
+</head>
+<body>
+	<div class="wrapper fadeInDown">
+		<div id="formContent">
+			<!-- Tabs Titles -->
+
+			<!-- Icon -->
+			<div class="fadeIn first">
+				<br>
+				<h1>Register</h1>
+			</div>
+			<div style="color: red;" id="val"></div>
+
+			<!-- Login Form -->
+			<form action="" id="inp_frm" method="post">
+				<input type="text" id="login" class="fadeIn second" name="uname"
+					placeholder="Name" required> <input type="password"
+					id="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+					title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
+					class="fadeIn third" name="pass" placeholder="Password" required>
+				<input type="email" name="email"
+					pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+					class="fadeIn fourth" placeholder="Email" required> <br />
+				<br /> Gender: <input type="radio" name="gender"
+					class="fadeIn fifth" value="male" checked />Male&nbsp;&nbsp;<input
+					type="radio" name="gender" class="fadeIn fifth" value="female" />Female
+				<br /> <br /> College: <select name="college" class="fadeIn sixth">
+					<option value="iit delhi">IIT Delhi</option>
+					<option value="iit bombay">IIT Bombay</option>
+					<option value="iit madras">IIT Madras</option>
+					<option value="iit trichira">IIT Trichira</option>
+				</select> <br /> <br /> Course: <select name="course"
+					class="fadeIn seventh">
+					<option value="machine learning">Machine Learning</option>
+					<option value="advanced dbms">Advanced DBMS</option>
+					<option value="software engineering">Software Engineering</option>
+				</select> <br /> <br /> <input type="submit" class="fadeIn eight"
+					value="Register">
+			</form>
+
+			<!-- Register -->
+			<div id="formFooter">
+				<a class="underlineHover" id="pageLink">Already a User? Login
+					here..</a>
+			</div>
+
+		</div>
+	</div>
+
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+	<script>
+	$(document).ready(function(){
+		
+		$("#pageLink").on('click',()=>{
+			window.location.replace("login1.html")
+		})
+		
+		$("#inp_frm").on('submit',function(){			
+			event.preventDefault();
+			
+			var f = $(this).serialize();
+			//console.log(f);
+			
+			$.ajax({
+				url: "register",
+				data: f,
+				type: 'POST',
+				success: function(data, textStatus, jqXHR){
+					//console.log(data);
+					//console.log("Success.........")
+					if(data.trim()==='success'){
+						alert("Details Saved Successfully!!");
+						window.location.replace("login1.html");
+					}else if(data.trim()==='exists'){
+						$("#val").html("User Already Exists with this email!!")
+					}else if(data.trim()==='connectionEror'){
+						$("#val").html("Can't Connect to Network!!")
+					}
+				},
+				error: function(jqXHR, textStatus, errorThrown){
+					console.log(data);
+					console.log("Error.........")
+					
+				}
+			})
+		})
+		
+	})
+</script>
+
+</body>
+</html>

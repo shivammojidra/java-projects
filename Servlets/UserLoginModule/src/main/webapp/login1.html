@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Login1</title>
+<link
+	href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	rel="stylesheet" id="bootstrap-css">
+<script
+	src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script
+	src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link href="style_front.css" rel="stylesheet">
+</head>
+<body>
+	<div class="wrapper fadeInDown">
+		<div id="formContent">
+			<!-- Tabs Titles -->
+
+			<!-- Icon -->
+			<div class="fadeIn first">
+				<br /> <br />
+				<h1>User Login</h1>
+			</div>
+			<div style="color: red;" id="val"></div>
+
+			<!-- Login Form -->
+			<form action="" method="" id="inp_frm">
+				<input type="email" id="login" class="fadeIn second"
+					name="loginemail" placeholder="Email" required> <input
+					type="password" id="password" class="fadeIn third" name="loginpass"
+					placeholder="Password" required> <input type="submit"
+					id="sub" class="fadeIn fourth" value="Log In">
+			</form>
+
+			<!-- Register -->
+			<div id="formFooter">
+				<a class="underlineHover" id="pageLink">New User? Register
+					here..</a>
+			</div>
+
+		</div>
+	</div>
+
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+	<script>
+	$(document).ready(function(){
+		
+		$("#pageLink").on('click',()=>{
+			window.location.replace("Register.html");
+		})
+		
+		
+		$("#inp_frm").on('submit',function(){
+			event.preventDefault();
+			
+			var f = $(this).serialize();
+			console.log(f);
+			
+			$.ajax({
+				url: "login",
+				data: f,
+				type: 'POST',
+				success: function(data, textStatus, jqXHR){
+					console.log(data);
+					console.log("Success.........")
+					if(data.trim()==='done'){		
+						window.location.replace("Profile.html");
+					}else if(data.trim()==='fail'){
+						$("#val").html("Wrong Credentials!!")
+					}else if(data.trim()==='unf'){
+						$("#val").html("User Not Found!!")
+					}else if(data.trim()==='conErr'){
+						$("#val").html("Connection Error!!")
+					}
+				},
+				error: function(jqXHR, textStatus, errorThrown){
+					console.log(data);
+					console.log("Error.........")
+					
+				}
+			})
+		})
+		
+		$(window).bind('beforeunload', function(){
+			  document.getElementById("login").value="";
+			  document.getElementById("password").value="";
+		});
+		
+	})
+</script>
+</body>
+</html>
