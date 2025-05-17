@@ -1,0 +1,17 @@
+{"properties": [
+  {
+    "name": "jwt.secret",
+    "type": "java.lang.String",
+    "description": "JWT toke Secret Key."
+  },
+  {
+    "name": "allowed.origins",
+    "type": "java.lang.String",
+    "description": "Allowed origins."
+  },
+  {
+    "name": "jwt.expiration",
+    "type": "java.lang.String",
+    "description": "JWT Token expiration time."
+  }
+]}
